@@ -20,9 +20,12 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController controller = TextEditingController();
   String initialCountry = 'EG';
   PhoneNumber number = PhoneNumber(isoCode: 'EG');
+  // Replace "yourPhoneNumber" and "yourText" with your values
+  String phone = "";
+  String prefilledMsg = "";
 
   Future<void> _launchWhatsapp(String phone, String text) async {
-    final url = Uri.parse('whatsapp://send?phone=+201017001982&text=$text');
+    final url = Uri.parse('whatsapp://send?phone=$phone&text=$text');
     if (await canLaunchUrl(url)) {
       await launchUrl(url);
     } else {
@@ -34,44 +37,6 @@ class _HomeScreenState extends State<HomeScreen> {
     }
   }
 
-  Future<void> _launchWhatsappBusiness(String phone, String text) async {
-    final url = Uri.parse(
-        'whatsapp://send?phone=+201017001982&text=$text&app_name=com.whatsapp.w4b');
-    if (await canLaunchUrl(url)) {
-      await launchUrl(url);
-    } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('WhatsApp Business not installed'),
-        ),
-      );
-    }
-  }
-
-  Future<void> _showWhatsappMenu(String phone, String text) async {
-    final result = await showDialog(
-      context: context,
-      builder: (context) => SimpleDialog(
-        title: const Text('Choose WhatsApp App'),
-        children: [
-          SimpleDialogOption(
-            onPressed: () {
-              Navigator.pop(context);
-              _launchWhatsapp(phone, text);
-            },
-            child: const Text('WhatsApp'),
-          ),
-          SimpleDialogOption(
-            onPressed: () {
-              Navigator.pop(context);
-              _launchWhatsappBusiness(phone, text);
-            },
-            child: const Text('WhatsApp Business'),
-          ),
-        ],
-      ),
-    );
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,6 +57,7 @@ class _HomeScreenState extends State<HomeScreen> {
             child: InternationalPhoneNumberInput(
               onInputChanged: (PhoneNumber number) {
                 print(number.phoneNumber);
+                phone = number.phoneNumber ?? "";
               },
               onInputValidated: (bool value) {
                 print(value);
@@ -117,14 +83,11 @@ class _HomeScreenState extends State<HomeScreen> {
           IconButton(
             icon: const Icon(FontAwesomeIcons.whatsapp),
             onPressed: () async {
-              // Replace "yourPhoneNumber" and "yourText" with your values
-              final phone = "yourPhoneNumber";
-              final text = "yourText";
               // Check if both apps are installed before showing the menu
               final canLaunchWhatsapp = await canLaunchUrl(
-                  Uri.parse('whatsapp://send?phone=+201017001982'));
+                  Uri.parse('whatsapp://send?phone=$phone'));
               if (canLaunchWhatsapp) {
-                _launchWhatsapp(phone, text);
+                _launchWhatsapp(phone, prefilledMsg);
               } else {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
