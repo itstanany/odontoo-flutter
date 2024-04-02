@@ -27,7 +27,25 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Odonto Connect"),
       ),
-      body: OnTheFlyWhatsAppConnect()
+      body:Column(
+        children: [
+          OnTheFlyWhatsAppConnect(),
+          Card(
+            child: Padding(
+              padding: const EdgeInsets.all(20.0), // Adjust padding as needed
+              child: Row( // Use Row instead of Column
+                mainAxisAlignment: MainAxisAlignment.end, // Distribute content horizontally
+                children: [
+                  Text(
+                    "جهات الاتصال الخاصة",
+                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 }
