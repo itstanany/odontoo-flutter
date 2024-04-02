@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:odontoo/data/db/shared_database.dart';
 import 'package:odontoo/widgets/OnTheFlyWhatsAppConnect.dart';
+import 'package:odontoo/widgets/ScreenPrivateContacts.dart';
 
 
 void main() {
@@ -30,17 +31,23 @@ class _HomeScreenState extends State<HomeScreen> {
       body:Column(
         children: [
           OnTheFlyWhatsAppConnect(),
-          Card(
-            child: Padding(
-              padding: const EdgeInsets.all(20.0), // Adjust padding as needed
-              child: Row( // Use Row instead of Column
-                mainAxisAlignment: MainAxisAlignment.end, // Distribute content horizontally
-                children: [
-                  Text(
-                    "جهات الاتصال الخاصة",
-                    style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
-                  ),
-                ],
+          InkWell( // Wrap the entire Card
+            onTap: () {
+              // Navigate to ScreenPrivateContact on tap
+              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenPrivateContact()));
+            },
+            child: Card(
+              child: Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.end,
+                  children: [
+                    Text(
+                      "جهات الاتصال الخاصة",
+                      style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                  ],
+                ),
               ),
             ),
           ),
