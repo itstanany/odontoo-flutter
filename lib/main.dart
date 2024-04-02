@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:odontoo/data/db/shared_database.dart';
 import 'package:odontoo/widgets/OnTheFlyWhatsAppConnect.dart';
 
 
@@ -16,7 +17,9 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
+  final db = $FloorSharedDatabase
+  .databaseBuilder("shared_database.db")
+  .build();
 
   @override
   Widget build(BuildContext context) {
