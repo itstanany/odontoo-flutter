@@ -11,8 +11,12 @@ class AddNewContactScreen extends StatefulWidget {
 
 class _AddNewContactScreenState extends State<AddNewContactScreen> {
   final TextEditingController controller = TextEditingController();
-  PhoneNumber number = PhoneNumber(isoCode: 'EG');
+  final defaultIsoCode = "SA";
+  late List<PhoneNumber> numbers;
 
+   _AddNewContactScreenState() {
+     numbers = [PhoneNumber(isoCode: defaultIsoCode)];
+   }
   // Replace "yourPhoneNumber" and "yourText" with your values
   String phone = "";
   bool showNoteInputField = false;
@@ -41,7 +45,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
           ignoreBlank: false,
           autoValidateMode: AutovalidateMode.onUserInteraction,
           selectorTextStyle: TextStyle(color: Colors.black),
-          initialValue: number,
+          initialValue: numbers.first,
           textFieldController: controller,
           formatInput: true,
           keyboardType:
