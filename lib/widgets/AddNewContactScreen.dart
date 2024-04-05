@@ -11,12 +11,12 @@ class AddNewContactScreen extends StatefulWidget {
 
 class _AddNewContactScreenState extends State<AddNewContactScreen> {
   final TextEditingController controller = TextEditingController();
-  final defaultIsoCode = "SA";
+  final defaultIsoCode = "EG";
   late List<PhoneNumber> numbers;
 
-   _AddNewContactScreenState() {
-     numbers = [PhoneNumber(isoCode: defaultIsoCode)];
-   }
+  _AddNewContactScreenState() {
+    numbers = [PhoneNumber(isoCode: defaultIsoCode)];
+  }
   // Replace "yourPhoneNumber" and "yourText" with your values
   String phone = "";
   bool showNoteInputField = false;
@@ -55,19 +55,21 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
             print('On Saved: $number');
           },
         ),
-        OutlinedButton(onPressed: () {
-          setState(() {
-            showNoteInputField = true;
-          });
-        }, child: Text("Press Here to add Notes -- optional")
-        ),
-        if(showNoteInputField) TextField(
-          autocorrect: false,
-          decoration: InputDecoration(
-            hintText: "Notes",
-            border: OutlineInputBorder(),
-          ),
-        )
+        OutlinedButton(
+            onPressed: () {
+              setState(() {
+                showNoteInputField = true;
+              });
+            },
+            child: Text("Press Here to add Notes -- optional")),
+        if (showNoteInputField)
+          TextField(
+            autocorrect: false,
+            decoration: InputDecoration(
+              hintText: "Notes",
+              border: OutlineInputBorder(),
+            ),
+          )
       ],
     );
   }
