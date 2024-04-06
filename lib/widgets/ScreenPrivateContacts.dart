@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:odontoo/data/db/entities/UserContactDBEntity.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 import '../data/db/user_database.dart';
 
@@ -20,11 +21,22 @@ class _ScreenPrivateContactState extends State<ScreenPrivateContact> {
     // TODO: implement initState
     super.initState();
     db.then((value) =>
-        value.contactDao.getAllContacts()
-            .then((value) => setState(() {
+        value.contactDao.getAllContacts().then((value) => setState(() {
               _contacts = value;
-            })
-        ));
+            })));
+  }
+
+  Future<void> _launchWhatsapp(String phone, String text) async {
+    final url = Uri.parse('whatsapp://send?phone=$phone&text=$text');
+    if (await canLaunchUrl(url)) {
+      await launchUrl(url);
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('WhatsApp not installed'),
+        ),
+      );
+    }
   }
 
   @override
@@ -45,19 +57,20 @@ class _ScreenPrivateContactState extends State<ScreenPrivateContact> {
                 IconButton(
                   icon: const Icon(FontAwesomeIcons.whatsapp),
                   onPressed: () async {
-                    // Check if both apps are installed before showing the menu
-                    // final canLaunchWhatsapp = await canLaunchUrl(
-                    //     Uri.parse('whatsapp://send?phone=$phone'));
-                    // if (canLaunchWhatsapp) {
-                    //   _launchWhatsapp(phone, prefilledMsg);
-                    // } else {
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       content: Text(
-                    //           'Neither WhatsApp nor WhatsApp Business is installed'),
-                    //     ),
-                    //   );
-                    // }
+                    final canLaunchWhatsapp = await canLaunchUrl(Uri.parse(
+                        'whatsapp://send?phone=${contact.countryCodes.first + contact.numbers.first}'));
+                    if (canLaunchWhatsapp) {
+                      _launchWhatsapp(
+                          contact.countryCodes.first + contact.numbers.first,
+                          "prefilledMsg");
+                    } else {
+                      ScaffoldMessenger.of(context).showSnackBar(
+                        const SnackBar(
+                          content: Text(
+                              'Neither WhatsApp nor WhatsApp Business is installed'),
+                        ),
+                      );
+                    }
                   },
                 ),
                 IconButton(
