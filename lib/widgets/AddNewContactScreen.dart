@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
@@ -12,17 +11,28 @@ class AddNewContactScreen extends StatefulWidget {
 class _AddNewContactScreenState extends State<AddNewContactScreen> {
   final TextEditingController controller = TextEditingController();
   final defaultIsoCode = "EG";
-  late List<PhoneNumber> numbers;
+  late List<String> numbers;
+  late List<String> dialCodes;
+  late List<int> keys;
 
   _AddNewContactScreenState() {
-    numbers = [PhoneNumber(isoCode: defaultIsoCode)];
+    numbers = [
+      "",
+    ];
+    dialCodes = [
+      "",
+    ];
+    keys = [1];
   }
+
   // Replace "yourPhoneNumber" and "yourText" with your values
   String phone = "";
   bool showNoteInputField = false;
 
   @override
   Widget build(BuildContext context) {
+    print(numbers);
+    print(dialCodes);
     return Column(
       children: [
         TextField(
@@ -30,30 +40,67 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
           decoration:
               InputDecoration(border: OutlineInputBorder(), hintText: "الاسم"),
         ),
-        InternationalPhoneNumberInput(
-          onInputChanged: (PhoneNumber number) {
-            print(number.phoneNumber);
-            phone = number.phoneNumber ?? "";
-          },
-          onInputValidated: (bool value) {
-            print(value);
-          },
-          selectorConfig: SelectorConfig(
-            selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-            useBottomSheetSafeArea: true,
+        ...List.generate(
+          numbers.length,
+          (index) => Row(
+            key: Key(keys[index].toString()),
+            children: [
+              Expanded(
+                flex: 85, // Occupy 85% of the remaining space
+                child: InternationalPhoneNumberInput(
+                  onInputChanged: (PhoneNumber number) {
+                    print(number.phoneNumber);
+                    setState(() {
+                      dialCodes[index] = number.dialCode.toString();
+                      numbers[index] = number.parseNumber();
+                    });
+                  },
+                  initialValue: PhoneNumber(
+                    isoCode: defaultIsoCode,
+                  ),
+                  onInputValidated: (bool value) {
+                    print(value);
+                  },
+                  selectorConfig: SelectorConfig(
+                    selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+                    useBottomSheetSafeArea: true,
+                  ),
+                  ignoreBlank: false,
+                  autoValidateMode: AutovalidateMode.disabled,
+                  selectorTextStyle: TextStyle(color: Colors.black),
+                  formatInput: true,
+                  keyboardType: TextInputType.numberWithOptions(
+                      signed: true, decimal: true),
+                  inputBorder: OutlineInputBorder(),
+                  onSaved: (PhoneNumber number) {
+                    print('On Saved: $number');
+                  },
+                ),
+              ),
+              index == 0
+                  ? IconButton(
+                      icon: Icon(Icons.add),
+                      onPressed: () {
+                        // Handle plus button press
+                        setState(() {
+                          numbers.add("");
+                          dialCodes.add("");
+                          keys.add(keys.last + 1);
+                        });
+                      })
+                  : IconButton(
+                      icon: Icon(Icons.delete),
+                      onPressed: () {
+                        // Handle delete button press
+                        setState(() {
+                          numbers.removeAt(index);
+                          dialCodes.removeAt(index);
+                          keys.removeAt(index);
+                        });
+                      },
+                    ),
+            ],
           ),
-          ignoreBlank: false,
-          autoValidateMode: AutovalidateMode.onUserInteraction,
-          selectorTextStyle: TextStyle(color: Colors.black),
-          initialValue: numbers.first,
-          textFieldController: controller,
-          formatInput: true,
-          keyboardType:
-              TextInputType.numberWithOptions(signed: true, decimal: true),
-          inputBorder: OutlineInputBorder(),
-          onSaved: (PhoneNumber number) {
-            print('On Saved: $number');
-          },
         ),
         OutlinedButton(
             onPressed: () {
