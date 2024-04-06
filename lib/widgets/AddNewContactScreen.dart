@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 
+import '../data/db/entities/UserContactDBEntity.dart';
+import '../data/db/user_database.dart';
+
 class AddNewContactScreen extends StatefulWidget {
   const AddNewContactScreen({super.key});
 
@@ -9,7 +12,8 @@ class AddNewContactScreen extends StatefulWidget {
 }
 
 class _AddNewContactScreenState extends State<AddNewContactScreen> {
-  final TextEditingController controller = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController notesController = TextEditingController();
   final defaultIsoCode = "EG";
   late List<String> numbers;
   late List<String> dialCodes;
@@ -28,6 +32,36 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
   // Replace "yourPhoneNumber" and "yourText" with your values
   String phone = "";
   bool showNoteInputField = false;
+  Future<void> saveContact() async {
+    // Get user input (name, note)
+    final name = nameController.text;
+    final note = (showNoteInputField)
+        ? notesController.text
+        : ""; // Handle optional note
+
+    // Create UserContactDBEntity
+    final contact = UserContactDBEntity(
+      id: UniqueKey().toString(), // Generate a unique ID
+      name: name,
+      countryCodes: dialCodes, // Assuming dialCodes represent country codes
+      numbers: numbers,
+      tags: const [], // Set tags to an empty list initially
+      note: note,
+      profilePic: null, // Set profilePic to null for now
+    );
+    final db = $FloorUserDatabase.databaseBuilder("user_database.db").build();
+
+    db.then((value) =>
+        value.contactDao.insertContact(contact).then((value) => print(value)));
+    // Insert contact using ContactDao
+    // await ContactDaoProvider.provide().contactDao.insertContact(contact);
+
+    // Handle success or error (optional)
+    print("Contact saved successfully!");
+
+    // Consider navigating back to a contact list screen after successful save
+    Navigator.pop(context); // Example navigation (adjust as needed)
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +69,15 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
     print(dialCodes);
     return Column(
       children: [
+        OutlinedButton(
+          onPressed: () => saveContact(), // Call the saveContact function
+          child: Text("Save Contact"),
+        ),
         TextField(
           autocorrect: false,
           decoration:
               InputDecoration(border: OutlineInputBorder(), hintText: "الاسم"),
+          controller: nameController,
         ),
         ...List.generate(
           numbers.length,
@@ -116,6 +155,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
               hintText: "Notes",
               border: OutlineInputBorder(),
             ),
+            controller: notesController,
           )
       ],
     );
