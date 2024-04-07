@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+import 'package:odontoo/main.dart';
+import 'package:odontoo/widgets/HomeScreen.dart';
 
 import '../data/db/entities/UserContactDBEntity.dart';
 import '../data/db/user_database.dart';
@@ -59,8 +61,8 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
     // Handle success or error (optional)
     print("Contact saved successfully!");
 
-    // Consider navigating back to a contact list screen after successful save
-    Navigator.pop(context); // Example navigation (adjust as needed)
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MainScreen()));
   }
 
   @override
