@@ -27,6 +27,12 @@ class AddUserContactBloc
           );
           emit(AddUserContactStateActive(updatedFormInput));
           break;
+        case FullNameChanged fnc:
+          final updatedFormInput = state.addUserContactFormInput.copyWith(
+            fullName: fnc.name,
+          );
+          emit(AddUserContactStateActive(updatedFormInput));
+          break;
       }
     });
   }

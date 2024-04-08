@@ -76,6 +76,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
       child: BlocBuilder<AddUserContactBloc, AddUserContactState>(
         builder: (context, state) {
           final addUFI = state.addUserContactFormInput;
+          final bloc = BlocProvider.of<AddUserContactBloc>(context);
           return Column(
             children: [
               OutlinedButton(
@@ -86,7 +87,9 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
                 autocorrect: false,
                 decoration: InputDecoration(
                     border: OutlineInputBorder(), hintText: "الاسم"),
-                controller: nameController,
+                onChanged: (change) {
+                  bloc.add(FullNameChanged(change));
+                },
               ),
               ...List.generate(
                 state.addUserContactFormInput.numbers.length,

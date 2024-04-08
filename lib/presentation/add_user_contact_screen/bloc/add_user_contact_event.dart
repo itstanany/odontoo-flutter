@@ -23,3 +23,8 @@ final class PhoneNumChanged extends AddUserContactEvent {
   final String countryPhoneCode;
   final String phoneNumber;
 }
+
+final class FullNameChanged extends AddUserContactEvent {
+  final String name;
+  const FullNameChanged(this.name);
+}
