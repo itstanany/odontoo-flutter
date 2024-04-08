@@ -5,12 +5,12 @@ sealed class AddUserContactEvent {
   const AddUserContactEvent();
 }
 
-final class _SubmitBtnClicked extends AddUserContactEvent {
-  const _SubmitBtnClicked();
+final class SubmitBtnClicked extends AddUserContactEvent {
+  const SubmitBtnClicked();
 }
 
-final class _AddUserPhoneNumClicked extends AddUserContactEvent {
-  const _AddUserPhoneNumClicked();
+final class AddUserPhoneNumClicked extends AddUserContactEvent {
+  const AddUserPhoneNumClicked();
 }
 
 final class PhoneNumChanged extends AddUserContactEvent {

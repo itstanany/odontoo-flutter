@@ -10,10 +10,10 @@ class AddUserContactBloc
     on<AddUserContactEvent>((event, emit) {
       // TODO: implement event handler
       switch (event) {
-        case _SubmitBtnClicked sbc:
+        case SubmitBtnClicked sbc:
           // TODO: Handle this case.
           break;
-        case _AddUserPhoneNumClicked aupnc:
+        case AddUserPhoneNumClicked aupnc:
           // TODO: Handle this case.
           break;
         case PhoneNumChanged pnc:
