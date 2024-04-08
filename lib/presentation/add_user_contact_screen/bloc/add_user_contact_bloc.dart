@@ -15,6 +15,15 @@ class AddUserContactBloc
           break;
         case AddUserPhoneNumClicked aupnc:
           // TODO: Handle this case.
+          final updatedFormInput = state.addUserContactFormInput.copyWith(
+            numbers: [...state.addUserContactFormInput.numbers, ""],
+            dialCodes: [...state.addUserContactFormInput.dialCodes, ""],
+            keys: [
+              ...state.addUserContactFormInput.keys,
+              state.addUserContactFormInput.keys.last + 1
+            ],
+          );
+          emit(AddUserContactStateActive(updatedFormInput));
           break;
         case RemovePhoneNumClicked rpnc:
           final int index = rpnc.index;

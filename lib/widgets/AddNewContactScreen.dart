@@ -139,11 +139,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
                             icon: Icon(Icons.add),
                             onPressed: () {
                               // Handle plus button press
-                              setState(() {
-                                numbers.add("");
-                                dialCodes.add("");
-                                keys.add(keys.last + 1);
-                              });
+                              bloc.add(const AddUserPhoneNumClicked());
                             })
                         : IconButton(
                             icon: Icon(Icons.delete),
