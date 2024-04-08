@@ -13,6 +13,11 @@ final class AddUserPhoneNumClicked extends AddUserContactEvent {
   const AddUserPhoneNumClicked();
 }
 
+final class RemovePhoneNumClicked extends AddUserContactEvent {
+  final int index;
+  const RemovePhoneNumClicked(this.index);
+}
+
 final class PhoneNumChanged extends AddUserContactEvent {
   const PhoneNumChanged(
     this.index,

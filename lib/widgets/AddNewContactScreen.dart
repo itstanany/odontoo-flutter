@@ -149,11 +149,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
                             icon: Icon(Icons.delete),
                             onPressed: () {
                               // Handle delete button press
-                              setState(() {
-                                numbers.removeAt(index);
-                                dialCodes.removeAt(index);
-                                keys.removeAt(index);
-                              });
+                              bloc.add(RemovePhoneNumClicked(index));
                             },
                           ),
                   ],
