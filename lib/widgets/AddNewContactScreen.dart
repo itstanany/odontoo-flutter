@@ -80,7 +80,8 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
           return Column(
             children: [
               OutlinedButton(
-                onPressed: () => saveContact(), // Call the saveContact function
+                onPressed: () => bloc.add(
+                    const SubmitBtnClicked()), // Call the saveContact function
                 child: Text("Save Contact"),
               ),
               TextField(

@@ -1,5 +1,9 @@
 import 'package:bloc/bloc.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:meta/meta.dart';
+
+import '../../../data/db/entities/UserContactDBEntity.dart';
+import '../../../data/db/user_database.dart';
 
 part 'add_user_contact_event.dart';
 part 'add_user_contact_state.dart';
@@ -12,6 +16,36 @@ class AddUserContactBloc
       switch (event) {
         case SubmitBtnClicked sbc:
           // TODO: Handle this case.
+          Future<void> saveContact() async {
+            final formInput = state.addUserContactFormInput;
+            // Get user input (name, note)
+            final name = formInput.fullName;
+            final note = formInput.notes;
+
+            // Create UserContactDBEntity
+            final contact = UserContactDBEntity(
+              id: UniqueKey().toString(), // Generate a unique ID
+              name: name,
+              countryCodes: formInput
+                  .dialCodes, // Assuming dialCodes represent country codes
+              numbers: formInput.numbers,
+              tags: const [], // Set tags to an empty list initially
+              note: note,
+              profilePic: null, // Set profilePic to null for now
+            );
+            final db =
+                $FloorUserDatabase.databaseBuilder("user_database.db").build();
+
+            db.then((value) => value.contactDao
+                .insertContact(contact)
+                .then((value) => print(value)));
+            // Insert contact using ContactDao
+            // await ContactDaoProvider.provide().contactDao.insertContact(contact);
+
+            // Handle success or error (optional)
+            print("Contact saved successfully!");
+          }
+          saveContact();
           break;
         case AddUserPhoneNumClicked aupnc:
           // TODO: Handle this case.
