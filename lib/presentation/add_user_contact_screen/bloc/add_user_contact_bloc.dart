@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:meta/meta.dart';
 
 import '../../../data/db/entities/UserContactDBEntity.dart';
 import '../../../data/db/user_database.dart';
@@ -12,10 +11,8 @@ class AddUserContactBloc
     extends Bloc<AddUserContactEvent, AddUserContactState> {
   AddUserContactBloc() : super(AddUserContactStateInitial()) {
     on<AddUserContactEvent>((event, emit) {
-      // TODO: implement event handler
       switch (event) {
         case SubmitBtnClicked sbc:
-          // TODO: Handle this case.
           Future<void> saveContact() async {
             final formInput = state.addUserContactFormInput;
             // Get user input (name, note)
@@ -36,14 +33,11 @@ class AddUserContactBloc
             final db =
                 $FloorUserDatabase.databaseBuilder("user_database.db").build();
 
-            db.then((value) => value.contactDao
-                .insertContact(contact)
-                .then((value) => print(value)));
+            db.then((value) => value.contactDao.insertContact(contact));
             // Insert contact using ContactDao
             // await ContactDaoProvider.provide().contactDao.insertContact(contact);
 
             // Handle success or error (optional)
-            print("Contact saved successfully!");
           }
           saveContact();
           break;
@@ -71,8 +65,6 @@ class AddUserContactBloc
           emit(AddUserContactStateActive(updatedFormInput));
           break;
         case PhoneNumChanged pnc:
-          print(
-              "handling phone num changed, ${pnc.index}-${event.countryPhoneCode}-${event.phoneNumber}");
           final updatedFormInput = state.addUserContactFormInput.copyWith(
             numbers: [...state.addUserContactFormInput.numbers]..[event.index] =
                 event.phoneNumber,
