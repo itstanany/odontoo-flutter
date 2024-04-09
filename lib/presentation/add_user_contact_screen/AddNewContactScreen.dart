@@ -4,8 +4,8 @@ import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:odontoo/main.dart';
 import 'package:odontoo/presentation/add_user_contact_screen/bloc/add_user_contact_bloc.dart';
 
-import '../data/db/entities/UserContactDBEntity.dart';
-import '../data/db/user_database.dart';
+import '../../data/db/entities/UserContactDBEntity.dart';
+import '../../data/db/user_database.dart';
 
 class AddNewContactScreen extends StatefulWidget {
   const AddNewContactScreen({super.key});
