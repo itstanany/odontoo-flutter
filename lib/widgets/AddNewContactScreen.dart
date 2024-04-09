@@ -106,7 +106,7 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
                               .add(PhoneNumChanged(
                             index,
                             number.dialCode.toString(),
-                            number.phoneNumber.toString(),
+                            number.parseNumber(),
                           ));
                           // setState(() {
                           //   dialCodes[index] = number.dialCode.toString();
