@@ -53,6 +53,13 @@ class AddUserContactBloc
           );
           emit(AddUserContactStateActive(updatedFormInput));
           break;
+
+        case NotesChanged nc:
+          final updatedFormInput = state.addUserContactFormInput.copyWith(
+            notes: nc.notes,
+          );
+          emit(AddUserContactStateActive(updatedFormInput));
+          break;
       }
     });
   }

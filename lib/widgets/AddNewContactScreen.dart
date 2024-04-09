@@ -165,7 +165,9 @@ class _AddNewContactScreenState extends State<AddNewContactScreen> {
                     hintText: "Notes",
                     border: OutlineInputBorder(),
                   ),
-                  controller: notesController,
+                  onChanged: (String text) {
+                    bloc.add(NotesChanged(text));
+                  },
                 )
             ],
           );

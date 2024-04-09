@@ -28,6 +28,7 @@ class AddUserContactStateActive extends AddUserContactState {
 
 class AddUserContactFormInput {
   final String fullName;
+  final String notes;
 
   final List<String> numbers;
   final List<String> dialCodes;
@@ -38,6 +39,7 @@ class AddUserContactFormInput {
     this.dialCodes = const [""],
     this.keys = const [1],
     this.fullName = "",
+    this.notes = "",
   });
 
   AddUserContactFormInput copyWith({
@@ -45,12 +47,14 @@ class AddUserContactFormInput {
     List<String>? dialCodes,
     List<int>? keys,
     String? fullName,
+    String? notes,
   }) {
     return AddUserContactFormInput(
       numbers: numbers ?? this.numbers,
       dialCodes: dialCodes ?? this.dialCodes,
       keys: keys ?? this.keys,
       fullName: fullName ?? this.fullName,
+      notes: notes ?? this.notes,
     );
   }
 }

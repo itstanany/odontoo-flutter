@@ -33,3 +33,8 @@ final class FullNameChanged extends AddUserContactEvent {
   final String name;
   const FullNameChanged(this.name);
 }
+
+final class NotesChanged extends AddUserContactEvent {
+  final String notes;
+  const NotesChanged(this.notes);
+}
