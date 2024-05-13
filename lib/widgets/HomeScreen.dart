@@ -19,20 +19,35 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body:Column(
+      body: Column(
+        crossAxisAlignment: CrossAxisAlignment.stretch,
         children: [
-          OnTheFlyWhatsAppConnect(),
-          InkWell( // Wrap the entire Card
-            onTap: () {
-              // Navigate to ScreenPrivateContact on tap
-              Navigator.push(context, MaterialPageRoute(builder: (context) => ScreenPrivateContact()));
+          // Add some vertical spacing
+          const SizedBox(height: 16),
+
+          // OnTheFlyWhatsAppConnect widget
+          const OnTheFlyWhatsAppConnect(),
+
+          // Add some vertical spacing
+          const SizedBox(height: 16),
+
+          // InkWell for navigating to ScreenPrivateContact
+          InkWell(
+            onTap: (){
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const ScreenPrivateContact(),
+                ),
+              );
             },
             child: Card(
+              margin: const EdgeInsets.symmetric(horizontal: 16),
               child: Padding(
                 padding: const EdgeInsets.all(16.0),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
+                  children: const [
                     Text(
                       "جهات الاتصال الخاصة",
                       style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
